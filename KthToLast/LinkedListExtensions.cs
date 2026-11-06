@@ -31,7 +31,22 @@ namespace KthToLast
 		/// </exception>
 		public static T KthToLastSinglyLinked<T>(this LinkedList<T> linkedList, int k)
 		{
-			return default;
+			if(k < 0 || k > linkedList.Count - 1)
+			{
+				throw new IndexOutOfRangeException();
+			}
+			if(linkedList.Count == 0)
+			{
+				throw new IndexOutOfRangeException();
+			}
+			int NodestoMove = linkedList.Count - (1+k);
+			LinkedListNode<T> CurrentNode = linkedList.First!;
+			while (NodestoMove > 0)
+			{
+				CurrentNode = CurrentNode.Next!;
+				NodestoMove--;
+			}
+			return CurrentNode.Value;
 		}
 
         /// <summary>
@@ -62,7 +77,17 @@ namespace KthToLast
         /// </exception>
         public static T KthToLastDoublyLinked<T>(this LinkedList<T> linkedList, int k)
         {
-			return default;
+			if(k < 0 || k > linkedList.Count - 1 || linkedList.Count == 0)
+			{
+				throw new IndexOutOfRangeException();
+			}
+			var CurrentNode = linkedList.Last;
+			while(k > 0)
+			{
+				CurrentNode = CurrentNode.Previous;
+				k--;
+			}
+			return CurrentNode.Value;
         }
     }
 }

@@ -26,8 +26,54 @@ public class Program
     /// <returns>true if the parentheses in <paramref name="s"/> are balanced; otherwise, false.</returns>
     public static bool IsBalanced(string s)
     {
-        
-        return false;
+        if(s is null)
+        {
+            return false;
+        }
+        Stack<char> BalanceCheck = new Stack<char>();
+        foreach(char c in s)
+        {
+            if(c == '(' || c == '[' || c == '{' || c == '<')
+            {
+                BalanceCheck.Push(c);
+            }
+            if(c == ')' || c == ']' || c == '}' || c == '>')
+            {
+                if(BalanceCheck.Count == 0)
+                {
+                    return false;
+                }
+                char Popped = BalanceCheck.Pop();
+                if(c == ')' && Popped == '(')
+                {
+                    continue;
+                }
+                else if(c == ']' && Popped == '[')
+                {
+                    continue;
+                }
+                else if(c == '}' && Popped == '{')
+                {
+                    continue;
+                }
+                else if(c == '>' && Popped == '<')
+                {
+                    continue;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        if(BalanceCheck.Count == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 

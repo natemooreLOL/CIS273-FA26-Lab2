@@ -66,7 +66,69 @@ public class Program
     /// <returns>The value of the expression, or null if it cannot be evaluated.</returns>
     public static double? Evaluate(string s)
     {
-        return null;
+        string[] operators = s.Trim().Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+        Stack<double> operations = new Stack<double>();
+        foreach(string opratr in operators)
+        {
+            if(opratr != "+" && opratr != "-" && opratr != "*" && opratr != "/")
+            {
+                operations.Push(Convert.ToDouble(opratr));
+            }
+            else if(operations.Count > 1)
+            {
+                double pop1 = operations.Pop();
+                double pop2 = operations.Pop();
+                if(opratr == "+")
+                {
+                    operations.Push(pop1 + pop2);
+                }
+                if(opratr == "-")
+                {
+                    operations.Push(pop2 - pop1);
+                }
+                if(opratr == "*")
+                {
+                    operations.Push(pop1 * pop2);
+                }
+                if(opratr == "/")
+                {
+                    if(pop1 == 0)
+                    {
+                        if(pop2 == 0)
+                        {
+                            return double.NaN;
+                        }
+                        else
+                        {
+                            if(pop2 > 0)
+                            {
+                                return double.PositiveInfinity;
+                            }
+                            else
+                            {
+                                return double.NegativeInfinity;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        operations.Push(pop2 / pop1);
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        if(operations.Count == 1)
+        {
+            return operations.Pop();
+        }
+        else
+        {
+            return null;
+        }
     }
 }
 
